@@ -1,0 +1,6 @@
+Model\Db\PublicSchema\Users:
+  exclusion_policy: none
+
+  properties:
+    auth_key:
+      exclude: true
