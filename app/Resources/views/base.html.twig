@@ -7,6 +7,12 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        <ul>
+            <li><a href="{{ path('test1') }}">Serialize result from PommProject\ModelManager\Model\CollectionIterator::extract()</a></li>
+            <li><a href="{{ path('test2') }}">Serialize PommProject\ModelManager\Model\CollectionIterator::extract() (throws exception)</a></li>
+            <li><a href="{{ path('test3') }}">Serialize an array of Model\Db\PublicSchema\Users)</a></li>
+        </ul>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

@@ -13,6 +13,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        return $this->render('default/index.html.twig', ['data' => null]);
+    }
+
+
+    /**
+     * @Route("/test1", name="test1")
+     */
+    public function test1Action()
+    {
         $pomm = $this->get("pomm")['db'];
         $usersModel = $pomm->getModel('Model\Db\PublicSchema\UsersModel');
         $users = $usersModel->findAll();
@@ -23,8 +32,22 @@ class DefaultController extends Controller
          * This would do, because  all data is pulled into an array of arrays.
          * But without further in depth processing, it would expose the users passwords.
          */
-//        $data = $serializer->serialize($users->extract(), 'json');
+         $data = $serializer->serialize($users->extract(), 'json');
 
+        return $this->render('default/index.html.twig', ['data' => $data]);
+    }
+
+
+    /**
+     * @Route("/test2", name="test2")
+     */
+    public function test2Action()
+    {
+        $pomm = $this->get("pomm")['db'];
+        $usersModel = $pomm->getModel('Model\Db\PublicSchema\UsersModel');
+        $users = $usersModel->findAll();
+
+        $serializer = $this->get('jms_serializer');
 
         /**
          * This won't work, $users is of type ResultIterator and therefor can not
@@ -36,6 +59,20 @@ class DefaultController extends Controller
          */
         $data = $serializer->serialize($users, 'json');
 
+        return $this->render('default/index.html.twig', ['data' => $data]);
+    }
+
+
+    /**
+     * @Route("/test3", name="test3")
+     */
+    public function test3Action()
+    {
+        $pomm = $this->get("pomm")['db'];
+        $usersModel = $pomm->getModel('Model\Db\PublicSchema\UsersModel');
+        $users = $usersModel->findAll();
+
+        $serializer = $this->get('jms_serializer');
 
         /**
          * This could work, if extract would return an array of
@@ -49,7 +86,8 @@ class DefaultController extends Controller
         }
         $data = $serializer->serialize($userCollection, 'json');
 
-
         return $this->render('default/index.html.twig', ['data' => $data]);
     }
+
+
 }
