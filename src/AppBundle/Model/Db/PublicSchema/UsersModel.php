@@ -2,6 +2,7 @@
 
 namespace Model\Db\PublicSchema;
 
+use PommProject\ModelManager\Model\CollectionIterator;
 use PommProject\ModelManager\Model\Model;
 use PommProject\ModelManager\Model\Projection;
 use PommProject\ModelManager\Model\ModelTrait\WriteQueries;
@@ -28,11 +29,36 @@ class UsersModel extends Model
      * Model constructor
      *
      * @access public
-     * @return void
      */
     public function __construct()
     {
         $this->structure = new UsersStructure;
         $this->flexible_entity_class = "\Model\Db\PublicSchema\Users";
     }
+
+    /**
+     * @param Where      $where
+     * @param string     $suffix
+     *
+     * @return CollectionIterator
+     */
+    public function findWithoutAuthKey(Where $where = null, $suffix = '')
+    {
+        $projection = $this->createProjection()
+                          ->unsetField('auth_key');
+
+        $sql = sprintf('SELECT %s FROM %s'
+          , $projection
+          , $this->getStructure()->getRelation()
+        );
+
+        if ($where)
+            $sql .= ' WHERE '. $where;
+
+        if ($suffix)
+            $sql .= ' '. $suffix;
+
+        return $this->query($sql, $where ? $where->getValues() : [], $projection);
+    }
+
 }

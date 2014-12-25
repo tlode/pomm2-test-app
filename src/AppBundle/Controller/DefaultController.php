@@ -24,7 +24,7 @@ class DefaultController extends Controller
     {
         $pomm = $this->get("pomm")['db'];
         $usersModel = $pomm->getModel('Model\Db\PublicSchema\UsersModel');
-        $users = $usersModel->findAll();
+        $users = $usersModel->findWithoutAuthKey(null, 'ORDER BY auth_name');
 
         $serializer = $this->get('jms_serializer');
 
